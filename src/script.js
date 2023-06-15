@@ -74,26 +74,31 @@ const loadModel = async (url) => {
   });
 };
 
-const model = await loadModel("/models/dingus_the_cat/scene.gltf");
+let MODEL = null;
 
-const loadModels = async (count) => {
+(async () => {
+  return await loadModel("/models/dingus_the_cat/scene.gltf");
+})().then((model) => {
+  loadModels(debugObject.count, model);
+  MODEL = model;
+});
+
+const loadModels = async (count, model) => {
   for (let i = 0; i < count; i++) {
-    const catModel = model.clone();
-    scene.add(catModel);
-    cats.push(catModel);
-    catModel.position.set(
+    const modelClone = model.clone();
+    scene.add(modelClone);
+    cats.push(modelClone);
+    modelClone.position.set(
       (Math.random() - 0.5) * 200,
       (Math.random() - 0.5) * 200,
       (Math.random() - 0.5) * 200
     );
     const scale = Math.random() * 0.6 + 0.1;
-    catModel.scale.set(scale, scale, scale);
-    catModel.rotation.y = (Math.random() - 0.5) * Math.PI * 2;
+    modelClone.scale.set(scale, scale, scale);
+    modelClone.rotation.y = (Math.random() - 0.5) * Math.PI * 2;
   }
   updateAllMaterials();
 };
-
-loadModels(debugObject.count);
 
 gui
   .add(debugObject, "count")
@@ -102,7 +107,7 @@ gui
   .step(1)
   .onFinishChange((value) => {
     if (value > cats.length) {
-      loadModels(value - cats.length);
+      loadModels(value - cats.length, MODEL);
     } else if (value < cats.length) {
       const removeCats = cats.splice(value);
       removeCats.forEach((cat) => {
