@@ -51,12 +51,8 @@ const environmentMap = cubeTextureLoader.load([
   "/textures/environmentMaps/2/nz.jpg",
 ]);
 
-// environmentMap.encoding = THREE.sRGBEncoding;
-
 // scene.background = environmentMap;
 scene.environment = environmentMap;
-
-let catModel = null;
 
 const cats = [];
 
@@ -178,7 +174,7 @@ renderer.physicallyCorrectLights = true;
 renderer.outputEncoding = THREE.sRGBEncoding;
 // renderer.toneMapping = THREE.ReinhardToneMapping;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.5;
+renderer.toneMappingExposure = 3;
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.setSize(sizes.width, sizes.height);
